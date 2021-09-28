@@ -25,7 +25,7 @@ void show_Menu()
 	cout << "4、清空通讯录" << endl;
 	cout << "0、退出通讯录" << endl;
 }
-//新增联系人功能//
+//1、新增联系人功能//
 void new_Address(Addressbooks* user)
 {
 	system("cls");//窗口清屏
@@ -71,7 +71,7 @@ void new_Address(Addressbooks* user)
 
 
 }
-//修改联系人信息
+//1.2修改联系人信息
 void change_Information(int chooseCount, Addressbooks* user)
 {
 	int chooseChange;
@@ -86,6 +86,7 @@ void change_Information(int chooseCount, Addressbooks* user)
 	cin >> chooseChange;
 	if (chooseChange <= 4 && chooseChange >= 1)
 	{
+		system("cls");
 		switch (chooseChange)
 		{
 		case 1:
@@ -131,7 +132,7 @@ void change_Information(int chooseCount, Addressbooks* user)
 	else cout << "输入错误，请重新输入" << endl;
 
 }
-//删除联系人
+//1.3删除联系人
 void delete_Peoson(int choosecount, Addressbooks* user)
 {
 
@@ -142,7 +143,7 @@ void delete_Peoson(int choosecount, Addressbooks* user)
 		user->actualSize--;
 
 }
-//选择联系人进行查看，功能作用与查看联系人目录下
+//1、1选择联系人进行查看，功能作用与查看联系人目录下
 void choose_Peoson(int chooseCount, Addressbooks* user)
 {
 	int choosedeep;
@@ -185,6 +186,13 @@ void dis_Addressbook(Addressbooks* user)
 	if (user->actualSize == 0)
 	{
 		cout << "***你没有朋友的吗？***" << endl;
+		cout << "按0返回" << endl;
+		cin >> choose_count;
+		while (choose_count != 0)
+		{
+			cin >> choose_count;
+		}
+		system("cls");//窗口清屏
 	}
 	else
 	{
@@ -203,27 +211,89 @@ void dis_Addressbook(Addressbooks* user)
 			choose_Peoson(choose_count, user);
 
 		}
+		system("cls");
 
 	}
 
 }
+//清空联系人目录
+void clear_Addressbooks(Addressbooks* user)
+{
+	int itemp;
+	system("cls");
+	cout << "按1确定删除    其他数字键取消删除" << endl;
+	cin >> itemp;
+	system("cls");
+	if(itemp==1)
+	{
+		user->actualSize = 0;
+		cout << "清空成功" << endl;
+	}
 
+}
+//查找联系人
+int find_Peoson(Addressbooks* user)
+{
+	string stemp;
+	int itemp=0;
+	system("cls");
+	cout << "输入联系人姓名" << endl;
+	cin >> stemp;
+	if (user->actualSize == 0)
+	{
+		cout << "联系人列表为空" << endl;
+		cout << "按0返回" << endl;
+		cin >> itemp;
+		while (itemp != 0)
+		{
+			cin >> itemp;
+		}
+		system("cls");
+		return 0;
+	}
+	for (int i = 1; i <= user->actualSize;i++)
+	{
+		if (user->peosonArray[i-1].Name == stemp)
+		{
+			itemp=i;
+			system("cls");
+			return itemp;
+		}
+	}
+
+	cout << "查无此人" << endl;
+	cout <<"按0返回" << endl;
+	cin >> itemp;
+	while (itemp != 0)
+	{
+		cin >> itemp;
+	}
+	system("cls");
+	return 0;
+}
 //主函数//
 int main()
 {
 	Addressbooks user;
 	int function_count;
-
+	int itemp;
 	while (1) {
 		show_Menu();
-		scanf_s("%d", &function_count);
+		cin >> function_count;
 		switch (function_count)
 		{
 		case 1:new_Address(&user); break;
 		case 2:dis_Addressbook(&user); break;
-		case 3:break;//查找联系人
-		case 4:break;//清空通讯录
-		case 0:printf("欢迎下次使用");
+		case 3:
+			
+			itemp = find_Peoson(&user);
+			if(itemp<1000&&itemp>0)
+			choose_Peoson(itemp,&user);
+			break;//查找联系人
+		case 4:clear_Addressbooks(&user); break;//清空通讯录
+		case 0:
+			system("cls");
+			printf("欢迎下次使用");
 			system("pause");
 			return 0;
 			break;
